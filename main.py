@@ -4,12 +4,14 @@ import graphlab
 from sklearn.linear_model import LinearRegression
 
 def makeCSV(df):
+    '''Converting to dataframe to CSV'''
     # input = numpy array of
     # rows of [userid, jokeid, rating]
     filename = 'data/predictions.csv'
     df.to_csv(filename)
 
 def avg_joke_score(df):
+    ''' Returns a list of average score for type of joke'''
     jokes = df['joke_id'].unique()
     jokelist = []
     for i in xrange(151):
@@ -23,6 +25,7 @@ def avg_joke_score(df):
     return Output
 
 def get_data():
+    '''Gets ratings data and computes the average score'''
     ratings = pd.read_table("data/ratings.dat")
     ratings['joke_id'][ratings['joke_id']==151] = 15
     test_data = pd.read_csv("data/test_ratings.csv")
@@ -30,11 +33,13 @@ def get_data():
     return ratings, test_data, avg_score
 
 def recommender(ratings):
+    ''' Using the Ratings data, returns a graphlab matrix factorization recommender'''
     sf = graphlab.SFrame(ratings)
     m1 = graphlab.factorization_recommender.create(sf, max_iterations=50, num_factors=2, linear_regularization=1e-12, user_id='user_id', item_id='joke_id', target='rating', solver='als')
     return m1
 
 def testing_res(test_data, m1):
+    ''' Using test data and recommender model, returns dataframe with jokeid, userid and ratings'''
     test_sf = graphlab.SFrame(test_data)
     predicted_ratings = np.array(m1.predict(test_sf))
     output_df = test_data[['user_id','joke_id']]
@@ -42,6 +47,7 @@ def testing_res(test_data, m1):
     return output_df
 
 def applying_linear_model(output_df, ratings, m1, sf):
+    ''' Using manually tagged jokes perform a linear regression model which predicts rating for a category'''
     X_test = output_df.drop('user_id', axis=1)
     for i in avg_score:
         X_test['joke'+str(i)] = 0
