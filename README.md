@@ -1,5 +1,13 @@
 # Recommendation System Jester Dataset
-Using the user ratings of the Jester Dataset, built a recommendation system with Matrix Factorization. Converted to an Ensemble model, by performing Linear Regression with manually tagged jokes. Error metric decreased significantly. Performed unsupervised KMeans clustering to identify possible groups of joke within data. 
+
+## Overview
+Recommendation systems is one of the widely used ML concept. This project aims to develop my understanding of Recommendation systems using GraphLab and the Jester Dataset. Using the user ratings of the Jester Dataset, we built a recommendation system with Matrix Factorization. We then converted to an Ensemble model, by performing Linear Regression with manually tagged jokes. Error metric decreased significantly.
+
+## Dataset
+The dataset was downloaded from [Jester Dataset](http://eigentaste.berkeley.edu/dataset/)
+
+## Data Cleaning and EDA
+There were 150 jokes in all with ratings. 10 Jokes had zero rating and there was 1 rating without a joke id tag. We removed the jokes which had no rating, and reindexed the joke id.
 
 ## Files in src and it's use
 
